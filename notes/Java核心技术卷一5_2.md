@@ -248,3 +248,144 @@ ArrayList<Employee> result = (ArrayList<Employee>)employeeDB.find(query);
 ```
 
 取消警告
+
+
+
+### 5.4 对象包装器与自动装箱
+
+需要基本类型转换为对象时，每个基本类型有一个跟它相对应的类。
+
+这些对应基本类型的类称为包装器（wrapper）
+
+包装器：
+
+Integer，Long，Float，Double，Short，Byte，Character，Void，Boolean
+
+其中前 6 个派生于 Number。
+
+包装器类的对象是不可变的，一旦创建就不能更改其值。对象包装器还是 final 的，不能定义其子类。
+
+整型数组列表，尖括号中只能使用 Integer 而不能使用 int
+
+int[] 要比 ArrayList\<Integer\> 快得多
+
+
+
+自动装箱（autoboxing，autowrapping）
+
+调用
+
+```java
+list.add(3);
+```
+
+自动装箱为
+
+```java
+list.add(Integer.valueOf(3));
+```
+
+
+
+在赋值给 int 或者算数表达式中会自动拆箱
+
+```java
+int n = list.get(i);
+Integer n = 3;
+n++;
+```
+
+
+
+注意 == 等号运算符的结果对于基本类型是可预见的
+
+但是对于包装类的比较是不可预见的
+
+boolean，byte，
+
+char <= 127， 
+
+-128 <= short，int <= 127
+
+被包装到固定的对象中
+
+
+
+应当使用 equals 对包装类进行判断
+
+
+
+包装类变量可能是 null，自动拆箱会 NullPointerException
+
+
+
+条件表达式混用 Integer 和 Double ，Integer 拆箱再装箱会提升为 Double 
+
+```java
+Integer n = 1;
+Double x = 2.0;
+System.out.println(true ? n : x); // 1.0
+```
+
+拆装箱过程是编译器进行的，不是虚拟机
+
+
+
+可以将字符串转化为数字
+
+```java
+int x = Integer.parseInt(str);
+```
+
+
+
+注意 Java 都是按值传递的，因此包装类参数是不能被更改的
+
+```java
+public static void triple(int x) // won't work
+{
+    x = 3 * x;
+}
+public static void triple(Integer x) // won't work
+{
+    x = 3 * x;
+}
+```
+
+在函数内一个新的对象会赋值给 x 但是不会改变传入的参数的引用对象
+
+
+
+想修改数值参数值的方法，需要使用 org.omg.CORBA 定义的 holder 类型
+
+
+
+IntegerAPI.java
+
+```java
+public class IntegerAPI {
+    public static void main(String[] args) {
+        // java.lang.Integer
+        // int intValue()
+        // int 形式返回值
+
+        // static String toString(int i)
+
+        // static String toString(int i,int radix)
+        // radix 进制下的 i
+
+        // static int parseInt(String s)
+        
+        // static int parseInt(String s, int radix)
+        // 串是 radix 进制的
+
+        // static Integer valueOf(String s)
+        // static Integer valueOf(String s, int radix)
+
+        // java.text.NumberFormat
+        // Number parse(String s)
+        // 返回数字值
+    }
+}
+```
+
