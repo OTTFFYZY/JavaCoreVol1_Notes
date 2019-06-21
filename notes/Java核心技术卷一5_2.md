@@ -389,3 +389,143 @@ public class IntegerAPI {
 }
 ```
 
+
+
+### 5.5 参数数量可变的方法
+
+例如 System.out.printf 就是个参数数量可变的方法
+
+```java
+public class PrintStream {
+    public PrintStream printf(String fmt, Object... args) {
+        return format(fmt, args);
+    }
+}
+```
+
+其中 3 个点的省略号是 Java 代码的一部分，表明方法可以接受任意数量的对象
+
+
+
+实际上 printf 接受两个参数，一个是格式字符串，一个是 Object[] 数组
+
+编译器将自动装箱
+
+```java
+System.out.printf("%d %s", new Object[] {new Integer(n), "widgets"});
+```
+
+
+
+可以自定义若干数值的最大值
+
+```java
+public static double max(double... value) {
+    double largest = Double.NEGATIVE_INFINITY;
+    for(double v : values)
+        if(v > largest) largest = v;
+    return largest;
+}
+```
+
+
+
+甚至可以将 main 定义如下
+
+```java
+public static void main(String... args)
+```
+
+
+
+### 5.6 枚举类
+
+```java
+public enum Size {
+    SMALL, MEDIUM, LARGE, EXTRA_LARGE
+};
+```
+
+比较枚举类型的值直接使用 ==
+
+可以使用构造器，将会在构建枚举常量时调用
+
+
+
+EnumTest.java
+
+```java
+import java.util.*;
+public class EnumTest {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a size: (SMALL, MEDIUM, LARGE, EXTRA_LARGE) ");
+        String input = in.next().toUpperCase();
+        Size size = Enum.valueOf(Size.class, input);
+        System.out.println("size = " + size);
+        System.out.println("abbreviation = " + size.getAbbreviation());
+        if(size == Size.EXTRA_LARGE)
+            System.out.println("Good Job");
+    }
+}
+
+enum Size {
+    SMALL("S"), MEDIUM("M"), LARGE("L"), EXTRA_LARGE("XL");
+
+    private String abbreviation;
+
+    private Size(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+}
+```
+
+结果1
+
+```text
+Enter a size: (SMALL, MEDIUM, LARGE, EXTRA_LARGE) small
+size = SMALL
+abbreviation = S
+```
+
+结果2
+
+```java
+Enter a size: (SMALL, MEDIUM, LARGE, EXTRA_LARGE) extra_large
+size = EXTRA_LARGE
+abbreviation = XL
+Good Job
+```
+
+
+
+EnumAPI.java
+
+```java
+public class EnumAPI {
+    public static void main(String[] args) {
+        // java.lang.Enum <E>
+        // static Enum valueOf(Class enumClass, String name)
+        // 返回指定 name 给定 enumClass 的枚举常量
+
+        // static E[] values()
+        // 返回全部枚举值的数组
+
+        // String toString()
+        // 返回枚举常量名，去静态 valueOf 互逆
+
+        // int ordinal
+        // 枚举常量声明时的位置，从 0 开始计数
+
+        // int compareTo(E other)
+        // 枚举常量出现在 other 之前返回负值，this == other 返回 0，否则返回正值
+    }
+}
+```
+
+
+
+简化考虑 Enum 类省略了类型参数，实际上枚举类型 Size 应该扩展为 Enum\<Size\>
