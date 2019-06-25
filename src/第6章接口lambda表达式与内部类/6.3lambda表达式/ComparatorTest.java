@@ -3,12 +3,12 @@ import java.util.*;
 public class ComparatorTest {
     public static void main(String[] args) {
         Person[] people = new Person[6];
-        people[0] = new Person("abc", "bwec", "sdg");
-        people[1] = new Person("bawe", "bwec", "absgd");
+        people[0] = new Person("bbc", "bwec", "sdg");
+        people[1] = new Person("bawe", "bwqec", "absgd");
         people[2] = new Person("sdb", null, "cxzagagd");
-        people[3] = new Person("dg", "bwec", "sggad");
-        people[4] = new Person("asgag", "bwec", "sdg");
-        people[5] = new Person("gdg", null, "dgd");
+        people[3] = new Person("dg", "ec", "sggad");
+        people[4] = new Person("asgag", "abqwec", "sdg");
+        people[5] = new Person("gdg", null, "sgd");
         show("original array :", people);
 
         Arrays.sort(people, Comparator.comparing(Person::getLastName));
@@ -32,14 +32,16 @@ public class ComparatorTest {
         show("Sorted by middle name (null first) :", people);
     }
     public static void show(String s, Person[] arr) {
-        System.out.println(s);
+        System.out.print(s);
         boolean fi =  true;
         for(Person p : arr) {
-            if(!fi) System.out.print(", ");
+            if(!fi) System.out.print(",");
             fi = false;
-            System.out.print(p.getFirstName() + " " + p.getMiddleName() + " " + p.getLastName());
+            System.out.println();
+            System.out.print("    " + p.getFirstName() + " " 
+                           + p.getMiddleName() + " " + p.getLastName());
         }
-        System.out.println();
+        System.out.println('\n');
     }
 }
 class Person {
