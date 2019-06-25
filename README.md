@@ -34,9 +34,9 @@
 
 章节：6.2.3
 
-笔记位置：[6_0](\notes\Java核心技术卷一6_0.md#6.2.3-对象克隆)
+笔记位置：[6_0](/notes/Java核心技术卷一6_0.md#6.2.3-对象克隆)
 
-代码：[CloneTest.java](src\第6章接口lambda表达式与内部类\6.2接口示例\cloneTest)
+代码：[CloneTest.java](src/第6章接口lambda表达式与内部类/6.2接口示例/cloneTest)
 
 
 
@@ -44,7 +44,7 @@
 
 章节：6.3
 
-笔记位置：[6_1](\notes\Java核心技术卷一6_1.md)
+笔记位置：[6_1](/notes/Java核心技术卷一6_1.md)
 
 
 
@@ -52,7 +52,7 @@
 
 章节：6.3
 
-笔记位置：[6_2](\notes\Java核心技术卷一6_2.md)
+笔记位置：[6_2](notes/Java核心技术卷一6_2.md)
 
 
 
