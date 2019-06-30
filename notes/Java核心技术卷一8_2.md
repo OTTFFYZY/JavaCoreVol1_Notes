@@ -14,3 +14,42 @@
 
 #### 8.8.1 通配符概念
 
+通配符类型中，允许类型参数变化。通配符类型
+
+```java
+Pair<? extends Employee> 
+```
+
+比如针对下面的函数
+
+```java
+public static void printBuddies(Pair<Employee> p) {
+    Employee first = p.getFirst();
+    Employee second = p.getSecond();
+    System.out.println(first.getName() + " and " + second.getName() + " are buddies.");
+}
+```
+
+就不能传递参数 Pair\<Manager\>
+
+此时应该使用通配符类型
+
+```java
+public static void printBuddies(Pair<? extends Employee> p) {
+    Employee first = p.getFirst();
+    Employee second = p.getSecond();
+    System.out.println(first.getName() + " and " + second.getName() + " are buddies.");
+}
+```
+
+
+
+通配符类型的引用
+
+```java
+Pair<Manager> managerBuddies = new Pair<>(ceo,cfo);
+Pair<? extends Employee> wcBuddies = managerBuddies;
+// wcBuddies.setFirst(lowlyEmployee);
+```
+
+这样调用 set 方法不会通过编译
