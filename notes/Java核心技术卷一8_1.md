@@ -385,12 +385,12 @@ class Manager extends Employee implememts Comparable {...}
       |                     List                           |
       |                       ^                            |
 <<interface>>                 .                       <<interface>>
-List<Manager>                 |                       List<Employee>
+List<Manager>                 .                       List<Employee>
       ^                       .                            ^
-      .                       |                            .
-      |   ---------------> ArrayList <------------------   |
+      .                       .                            .
+      .   ---------------> ArrayList <------------------   .
       .   |                 (raw)                       |  .
-      |   |                                             |  |
+      .   |                                             |  .
 ArrayList<Manager> - - - no relationship - - - - - ArrayList<Employee>
 ```
 
