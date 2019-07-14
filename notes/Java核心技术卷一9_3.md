@@ -335,3 +335,201 @@ List<JMenuItem> getAllItems(final JMenu menu) {
 
 ### 9.6 遗留的集合
 
+```text
+List <...... AbstractList <------ Vector <------ Stack
+                                   |
+               RandomAccess <------
+
+Map <...... Hashtable <------ Properties
+```
+
+
+
+#### 9.6.1 Hashtable 类
+
+Hashtable 与 hashMap 作用一致且拥有相同的接口，HashTable 的方法也是同步的。如果不需要考虑对遗留代码的兼容应该使用 HashMap 如果考虑并发应该使用 ConcurrentHashMap
+
+
+
+#### 9.6.2 枚举
+
+遗留集合使用 Enumeration 接口对元素序列进行遍历
+
+Enumeration 接口有两个方法，hasMoreElements 和 nextElement
+
+与 Iterator 接口的 hasNext 方法和 next 方法十分类似
+
+```java
+Enumeration<Employee> e = staff.elements();
+while(e.hasMoreElements()) {
+    Employee e = e.nextElement();
+    ...
+}
+```
+
+可能有些遗留方法参数是 Enumeration 的
+
+使用 Collections.enumeration 可以产生这样的对象
+
+```java
+List<InputStream> streams = ...;
+SequenceInputStream in = new SequenceInputStream(Collections.enumeration(stream));
+```
+
+
+
+EnumerationAPI.java
+
+```java
+public class EnumerationAPI {
+    public static void main(String[] args) {
+        // java.util.Enumeration<E>
+        // boolean hasMoreElements()
+        // E nextElement()
+
+
+        // java.util.Hashtable<K, V>
+        // Enumeration<K> keys()
+        // Enumeration<V> elements()
+        
+
+        // java.util.Vector<E>
+        // Enumeration<E> elements()
+    }
+}
+```
+
+
+
+#### 9.6.3 属性映射
+
+属性映射 property map 是一个类型特殊的映射结构，它有 3 个特性
+
+1.键和值都是字符串
+
+2.表可以保存到一个文件中，也可以从文件中加载
+
+3.使用一个默认的辅助表
+
+
+
+PropertiesAPI.java
+
+```java
+public class PropertiesAPI {
+    public static void main(String[] args) {
+        // java.util.Properties 
+        // Properties()
+        // Properties(Properties defaults)
+        // String getProperty(String key)
+
+        // String getProperty(String key, String defaultValue)
+        // 没找到 key 对应的属性时 返回 defaultValue
+
+        // void load(InputStream in)
+        // 从 in 中加载对象
+
+        // void store(OutputStream out, String commentString)
+        // 把属性映射存到 out
+    }
+}
+```
+
+
+
+#### 9.6.4 栈
+
+Stack 包含了熟悉的 push 和 pop 方法，但是 Stack 扩展于 Vector 使其拥有了 insert 和 remove 方法这不是很好
+
+StackAPI.java
+
+```java
+public class StackAPI {
+    public static void main(String[] args) {
+        // java.util.Stack<E>
+        // E push(E item)
+
+        // E pop()
+        // 返回栈顶元素，并弹出
+
+        // E peak()
+        // 返回栈顶元素，不弹出
+    }
+}
+```
+
+
+
+#### 9.6.5 位集
+
+BitSet 存放一个位集序列，比使用 Boolean 的 ArrayList 要高效
+
+
+
+BitSetAPI.java
+
+```java
+public class BitSetAPI {
+    public static void main(String[] args) {
+        // java.util.BitSet
+        // BitSet(int initialCapacity)
+        // int length()
+        // boolean get(int bit)
+        // void set(int bit)
+        // void clear(int bit)
+        // void and(BitSet set)
+        // void or(BitSet set)
+        // void xor(BitSet set)
+
+        // void andNot(BitSet set)
+        // 清除这个位集中对应另一个位集设置的所有位
+    }
+}
+```
+
+
+
+Sieve.java
+
+```java
+import java.util.*;
+
+public class Sieve {
+    public static void main(String[] args) {
+        int n=2_000_000;
+        long start = System.currentTimeMillis();
+        BitSet b = new BitSet(n + 1);
+        int count = 0;
+        int i;
+        for(i = 2; i <= n; i++)
+            b.set(i);
+        i = 2;
+        while(i * i <= n) {
+            if(b.get(i)) {
+                count++;
+                int k = 2 * i;
+                while(k <= n) {
+                    b.clear(k);
+                    k += i;
+                }
+            }
+            i++;
+        }
+        while(i <= n) {
+            if(b.get(i)) count++;
+            i++;
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("primes : " + count);
+        System.out.println((end - start) + " ms");
+    }
+}
+```
+
+结果
+
+```text
+primes : 148933
+33 ms
+```
+
